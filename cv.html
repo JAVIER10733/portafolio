@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CV de Ythan Javier Mora Gamarra: Desarrollador Full Stack, automatización con WhatsApp Bots y ciberseguridad. Anconcito, Ecuador.">
+  <meta name="theme-color" content="#0a0a0a">
+  <title>CV - Ythan Javier Mora Gamarra</title>
+  <style>
+    :root { --bg: #0a0a0a; --text: #f5f5f5; --muted: #999; --line: #292929; --accent: #fff; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; line-height: 1.6; padding: 40px 20px; max-width: 800px; margin: 0 auto; }
+    h1 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 8px; }
+    h2 { font-size: 1.2rem; color: var(--muted); font-weight: 500; margin-bottom: 24px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+    h3 { font-size: 1.1rem; margin-bottom: 4px; }
+    .subtitle { font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+    .contact-info { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.9rem; color: var(--muted); margin-bottom: 24px; }
+    .contact-info a { color: var(--accent); text-decoration: none; border-bottom: 1px solid #444; }
+    .btn-download { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #000; border: none; padding: 12px 22px; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; margin-bottom: 40px; font-family: inherit; }
+    .btn-download:hover { background: #ddd; }
+    .section { margin-bottom: 36px; }
+    .job, .project, .edu { margin-bottom: 20px; }
+    .job-header, .project-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+    .date { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+    a.date { color: var(--muted); text-decoration: none; }
+    ul { list-style-position: inside; color: #ccc; font-size: 0.95rem; margin-top: 8px; }
+    li { margin-bottom: 6px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+    .tag { font-size: 0.75rem; background: #171717; border: 1px solid #333; padding: 4px 10px; border-radius: 100px; color: #ccc; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+    .card { background: #111; border: 1px solid var(--line); padding: 14px; border-radius: 6px; }
+    .card h3 { font-size: 0.95rem; }
+    .card p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+    .github-stats { background: #111; border: 1px solid var(--line); padding: 15px; border-radius: 6px; margin-top: 10px; }
+    .github-stats p { margin: 0; font-size: 0.85rem; color: var(--muted); }
+    .github-stats strong { color: var(--text); }
+    .refs { font-size: 0.9rem; color: var(--muted); }
+
+
+    /* ===== Animaciones y efectos ===== */
+    #bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    header, .section { position: relative; z-index: 1; }
+    #progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, #6366f1, #22d3ee, #a78bfa); z-index: 10; box-shadow: 0 0 12px #22d3ee88; }
+
+    h1 { background: linear-gradient(90deg, #fff 0%, #fff 35%, #22d3ee 50%, #a78bfa 65%, #fff 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 6s linear infinite, fadeDown .9s ease both; }
+    @keyframes shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+    header .subtitle { animation: fadeUp .9s .25s ease both; }
+    header .contact-info { animation: fadeUp .9s .4s ease both; }
+    .btn-download { animation: fadeUp .9s .55s ease both, pulse 2.8s 1.6s infinite; transition: transform .2s, box-shadow .2s; }
+    .btn-download:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 28px #22d3ee55; }
+    .btn-download:active { transform: scale(.98); }
+    @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 #22d3ee66; } 50% { box-shadow: 0 0 0 12px #22d3ee00; } }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; transition-delay: var(--d, 0s); }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    h2 { position: relative; }
+    h2::after { content: ""; position: absolute; left: 0; bottom: -1px; height: 1px; width: 0; background: linear-gradient(90deg, #22d3ee, #a78bfa); transition: width 1s ease .2s; }
+    .section.visible h2::after { width: 100%; }
+
+    .project, .job, .edu { padding: 14px 16px; margin-left: -16px; margin-right: -16px; border-radius: 10px; border: 1px solid transparent; transition: background .25s, border-color .25s, transform .25s; }
+    .project:hover, .job:hover, .edu:hover { background: #ffffff08; border-color: #22d3ee33; transform: translateX(4px); }
+    .card { transition: transform .25s, border-color .25s, box-shadow .25s; }
+    .card:hover { transform: translateY(-5px); border-color: #22d3ee66; box-shadow: 0 10px 30px #22d3ee18; }
+    .tag { transition: transform .2s, border-color .2s, background .2s, color .2s; }
+    .tag:hover { transform: translateY(-2px); border-color: #22d3ee; background: #22d3ee14; color: #fff; }
+    a.date { transition: color .2s; }
+    a.date:hover { color: #22d3ee; }
+    .contact-info a { transition: color .2s, border-color .2s; }
+    .contact-info a:hover { color: #22d3ee; border-color: #22d3ee; }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; }
+    .stat { background: #111; border: 1px solid var(--line); border-radius: 6px; padding: 18px 14px; text-align: center; transition: transform .25s, border-color .25s; }
+    .stat:hover { transform: translateY(-4px); border-color: #22d3ee66; }
+    .stat strong { display: block; font-size: 2.2rem; line-height: 1.1; background: linear-gradient(90deg, #22d3ee, #a78bfa); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-variant-numeric: tabular-nums; }
+    .stat span { font-size: .8rem; color: var(--muted); }
+
+    /* ===== Nivel pro ===== */
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body { padding-top: 84px; }
+    body::before { content: ""; position: fixed; inset: -20%; z-index: 0; pointer-events: none; background: radial-gradient(40% 40% at 20% 20%, #6366f130, transparent 70%), radial-gradient(35% 35% at 80% 30%, #22d3ee22, transparent 70%), radial-gradient(40% 40% at 50% 90%, #a78bfa22, transparent 70%); animation: drift 24s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate3d(4%, -3%, 0) scale(1.12); } }
+    #spot { position: fixed; left: 0; top: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; pointer-events: none; z-index: 0; background: radial-gradient(circle, #22d3ee18, transparent 62%); will-change: transform; }
+
+    #nav { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 20; display: flex; gap: 4px; padding: 6px; max-width: calc(100vw - 20px); overflow-x: auto; background: #111c; border: 1px solid #ffffff1a; border-radius: 100px; -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 10px 40px #0008; scrollbar-width: none; }
+    #nav::-webkit-scrollbar { display: none; }
+    #nav a { flex: none; font-size: .78rem; color: var(--muted); text-decoration: none; padding: 7px 14px; border-radius: 100px; transition: background .2s, color .2s; }
+    #nav a:hover { color: #fff; }
+    #nav a.on { background: #ffffff14; color: #fff; }
+    #nav .nav-pdf { background: #fff; color: #000; font-weight: 600; }
+    #nav .nav-pdf:hover { background: #22d3ee; color: #000; }
+
+    .hero-top { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; margin-bottom: 18px; }
+    .hero-top .subtitle { margin-bottom: 8px; }
+    .avatar { position: relative; isolation: isolate; width: 92px; height: 92px; flex: none; border-radius: 50%; display: grid; place-items: center; font-size: 1.9rem; font-weight: 800; letter-spacing: -1px; animation: fadeDown .9s ease both; }
+    .avatar::before { content: ""; position: absolute; inset: -3px; border-radius: 50%; z-index: -2; background: conic-gradient(#22d3ee, #a78bfa, #6366f1, #22d3ee); animation: spin 6s linear infinite; }
+    .avatar::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #0a0a0a; z-index: -1; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .typing { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .85rem; color: #22d3ee; margin: 0; min-height: 1.4em; }
+    .typing .prompt { color: #a78bfa; }
+    .caret { display: inline-block; width: 7px; height: 1em; background: #22d3ee; margin-left: 2px; vertical-align: -2px; animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+    .cta-row .btn-download { margin-bottom: 0; }
+    .btn-wa, .btn-mail { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 8px; font-size: .95rem; font-weight: 600; text-decoration: none; color: #fff; transition: transform .2s, box-shadow .2s, background .2s; animation: fadeUp .9s .65s ease both; }
+    .btn-wa { border: 1px solid #25d36688; background: #25d36612; }
+    .btn-wa:hover { background: #25d36628; transform: translateY(-2px); box-shadow: 0 8px 28px #25d36644; }
+    .btn-mail { border: 1px solid #22d3ee88; background: #22d3ee12; }
+    .btn-mail:hover { background: #22d3ee28; transform: translateY(-2px); box-shadow: 0 8px 28px #22d3ee44; }
+    .cta-final { text-align: center; padding: 30px 0 10px; }
+    .cta-final h2 { font-size: 1.8rem; color: var(--text); border: none; margin-bottom: 8px; }
+    .cta-final h2::after { display: none; }
+    .cta-final p { color: var(--muted); margin-bottom: 22px; }
+    .cta-final .cta-row { justify-content: center; margin-bottom: 0; }
+
+    #experiencia, #formacion { position: relative; }
+    #experiencia::before, #formacion::before { content: ""; position: absolute; left: 4px; top: 62px; bottom: 14px; width: 2px; border-radius: 2px; background: linear-gradient(#22d3ee, #a78bfa, transparent); }
+    .job, .edu { position: relative; }
+    #experiencia .job, #formacion .edu { margin-left: 0; margin-right: 0; padding-left: 30px; }
+    #experiencia .job::before, #formacion .edu::before { content: ""; position: absolute; left: -1px; top: 22px; width: 12px; height: 12px; border-radius: 50%; background: #0a0a0a; border: 2px solid #22d3ee; box-shadow: 0 0 12px #22d3ee88; }
+
+    .card, .stat, .github-stats { background: #ffffff08; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+    .card.reveal, .project.reveal, .job.reveal, .edu.reveal { transition: opacity .7s ease, transform .3s ease, background .25s, border-color .25s, box-shadow .25s; }
+    .card.tilt, .stat.tilt { transition: border-color .25s, box-shadow .25s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+      h1 { -webkit-text-fill-color: #fff; background: none; }
+    }
+
+    @media print {
+      @page { margin: 14mm; }
+      body { background: #fff; color: #111; padding: 0; max-width: 100%; }
+      h1, h3, a { color: #000 !important; }
+      .subtitle, .date, .contact-info, li, .tag, .card p, .refs { color: #333 !important; }
+      .tag { border-color: #ccc; background: #f5f5f5; }
+      .github-stats, .card, .stat { border-color: #ccc; background: #f9f9f9; }
+      .stat strong { background: none; -webkit-text-fill-color: #000; }
+      .stat span { color: #333; }
+      h2 { border-color: #ccc; }
+      a { text-decoration: none; border: none !important; }
+      .btn-download, #bg, #progress { display: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      h1 { background: none !important; -webkit-text-fill-color: #000 !important; animation: none !important; }
+      h2::after { display: none; }
+      #nav, #spot, .btn-wa, .btn-mail, .typing, .avatar::before, body::before { display: none !important; }
+      .avatar { width: 72px; height: 72px; font-size: 1.5rem; border: 2px solid #000; color: #000; }
+      .avatar::after { background: #fff; }
+      body { padding-top: 0; }
+      #experiencia::before, #formacion::before, #experiencia .job::before, #formacion .edu::before { display: none; }
+      #experiencia .job, #formacion .edu { padding-left: 0; }
+      .card, .stat, .github-stats { background: #f9f9f9; -webkit-backdrop-filter: none; backdrop-filter: none; }
+      .cta-final h2 { color: #000; }
+      .project, .job, .edu { margin: 0 0 20px; padding: 0; }
+      .job, .project, .edu, .card, .stat { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div id="progress"></div>
+  <nav id="nav" aria-label="Secciones">
+    <a href="index.html">Inicio</a><a href="#perfil">Perfil</a><a href="#experiencia">Experiencia</a><a href="#proyectos">Proyectos</a><a href="#habilidades">Skills</a><a class="nav-pdf" href="#" onclick="window.print();return false">⬇ PDF</a>
+  </nav>
+  <header id="top">
+    <div class="hero-top">
+      <div class="avatar">YJ</div>
+      <div>
+        <h1>Ythan Javier Mora Gamarra</h1>
+        <p class="subtitle">Desarrollador Full Stack | Automatización con WhatsApp Bots | Ciberseguridad</p>
+        <p class="typing"><span class="prompt">~$</span> <span id="typed"></span><span class="caret"></span></p>
+      </div>
+    </div>
+    <div class="contact-info">
+      <span>📍 Anconcito, Santa Elena, Ecuador</span>
+      <a href="mailto:ythanjavier6@gmail.com">📧 ythanjavier6@gmail.com</a>
+      <a href="https://linkedin.com/in/ythan-javier-3664b032b" target="_blank">LinkedIn</a>
+      <a href="https://github.com/JAVIER10733" target="_blank">GitHub</a>
+    </div>
+    <div class="cta-row">
+      <button class="btn-download" onclick="window.print()">⬇ Descargar CV en PDF</button>
+      <a class="btn-wa" href="https://wa.me/593991459589?text=Hola%20Ythan,%20vi%20tu%20CV%20y%20me%20gustar%C3%ADa%20contactarte." target="_blank">💬 Hablemos por WhatsApp</a>
+    </div>
+  </header>
+
+  <section class="section" id="perfil">
+    <h2>Perfil Profesional</h2>
+    <p>Desarrollador Full Stack con enfoque en backend y automatización de procesos. Construyo sistemas web, APIs y bots para WhatsApp con JavaScript (Node.js) y PHP, además de dashboards de administración con bases de datos MySQL y MongoDB. Tengo bases sólidas en ciberseguridad y hacking ético, que aplico en herramientas propias como Pegasus, y más de 60 contribuciones en GitHub en el último año. Curso Ingeniería en Software en la UPSE y combino la formación académica con proyectos reales. Busco una oportunidad en desarrollo, automatización, ciberseguridad o soporte técnico donde pueda aportar desde el primer día y seguir creciendo.</p>
+  </section>
+
+  <section class="section">
+    <h2>Resumen</h2>
+    <div class="stats">
+      <div class="stat"><strong class="stat-num" data-count="9">9</strong><span>Repositorios públicos</span></div>
+      <div class="stat"><strong class="stat-num" data-count="60" data-suffix="+">60+</strong><span>Contribuciones en 2026</span></div>
+      <div class="stat"><strong class="stat-num" data-count="6">6</strong><span>Proyectos destacados</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="experiencia">
+    <h2>Experiencia Laboral</h2>
+
+    <div class="job">
+      <div class="job-header">
+        <h3>Desarrollador Web Full Stack</h3>
+        <span class="date">Marzo 2024 – Septiembre 2024</span>
+      </div>
+      <p class="subtitle">willie Inspired</p>
+      <ul>
+        <li>Desarrollo e implementación de aplicaciones web responsivas, mejorando la experiencia de usuario y la eficiencia en la gestión de datos.</li>
+        <li>Diseño y administración de bases de datos, garantizando la integridad, seguridad y rendimiento de la información.</li>
+        <li>Participación en ciclos de desarrollo completos, desde la definición de requerimientos hasta el despliegue y optimización de código.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="proyectos">
+    <h2>Proyectos Destacados</h2>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>Knightbot-MD | Bot de WhatsApp para Gestión de Grupos</h3>
+        <a href="https://github.com/JAVIER10733/Knightbot-MD" target="_blank" class="date">Ver Repositorio ↗</a>
+      </div>
+      <p>Bot inteligente desarrollado en JavaScript para la automatización y gestión de grupos de WhatsApp. Implementación de comandos personalizados, moderación automática y funcionalidades administrativas avanzadas.</p>
+      <div class="tags"><span class="tag">JavaScript</span><span class="tag">Node.js</span><span class="tag">WhatsApp API</span></div>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>WhatsApp Bot Dashboard | Panel de Control</h3>
+        <a href="https://github.com/JAVIER10733/whatsapp-bot-dashboard" target="_blank" class="date">Ver Repositorio ↗</a>
+      </div>
+      <p>Dashboard web completo para el monitoreo y administración de bots de WhatsApp. Interfaz intuitiva para visualizar estados, configuraciones y métricas de rendimiento en tiempo real.</p>
+      <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">Backend</span></div>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>Bot-WA-Pro | Sistema Profesional de Automatización</h3>
+        <a href="https://github.com/JAVIER10733/bot-wa-pro" target="_blank" class="date">Ver Repositorio ↗</a>
+      </div>
+      <p>Sistema robusto de automatización para WhatsApp desarrollado en PHP. Gestión avanzada de mensajes, respuestas automáticas y flujos de conversación personalizados.</p>
+      <div class="tags"><span class="tag">PHP</span><span class="tag">MySQL</span><span class="tag">WhatsApp API</span></div>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>Java-bot-Md | Bot Multi-Dispositivo</h3>
+        <a href="https://github.com/JAVIER10733/Java-bot-Md" target="_blank" class="date">Ver Repositorio ↗</a>
+      </div>
+      <p>Bot multi-plataforma desarrollado en JavaScript con soporte para múltiples dispositivos. Implementación de funcionalidades avanzadas de automatización y gestión de chats.</p>
+      <div class="tags"><span class="tag">JavaScript</span><span class="tag">Node.js</span><span class="tag">Multi-device</span></div>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>Ventas de Servidores | Plataforma E-commerce</h3>
+        <a href="https://github.com/JAVIER10733" target="_blank" class="date">Ver Repositorio ↗</a>
+      </div>
+      <p>Aplicación web completa para el catálogo, gestión y comercialización de servicios de servidores. Panel de administración seguro e interfaz optimizada para conversión.</p>
+      <div class="tags"><span class="tag">HTML/CSS</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">Base de Datos</span></div>
+    </div>
+
+    <div class="project">
+      <div class="project-header">
+        <h3>Pegasus | Herramienta de Auditoría para Android</h3>
+      </div>
+      <p>Herramienta en Python para terminal que gestiona y audita dispositivos Android propios mediante ADB (USB y WiFi): capturas, gestión de apps y archivos, y revisión de seguridad.</p>
+      <div class="tags"><span class="tag">Python</span><span class="tag">ADB</span><span class="tag">Ciberseguridad</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="formacion">
+    <h2>Formación Académica</h2>
+    <div class="edu">
+      <div class="job-header">
+        <h3>Ingeniería en Software</h3>
+        <span class="date">En curso</span>
+      </div>
+      <p class="subtitle">Universidad Estatal Península de Santa Elena (UPSE)</p>
+    </div>
+    <div class="edu">
+      <div class="job-header">
+        <h3>Bachiller Técnico</h3>
+        <span class="date">2020 – 2022</span>
+      </div>
+      <p class="subtitle">[Nombre de tu Colegio], Anconcito</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Cursos y Capacitaciones</h2>
+    <ul>
+      <li>Ciberseguridad y hacking ético – formación autodidacta y proyectos prácticos (herramienta Pegasus, X-OSINT)</li>
+      <li>Ingeniería en Software – UPSE (en curso)</li>
+    </ul>
+  </section>
+
+  <section class="section" id="habilidades">
+    <h2>Habilidades Técnicas</h2>
+    <div class="tags">
+      <span class="tag">JavaScript (ES6+)</span>
+      <span class="tag">PHP</span>
+      <span class="tag">Python</span>
+      <span class="tag">Node.js / Express</span>
+      <span class="tag">HTML5 / CSS3</span>
+      <span class="tag">MySQL / MongoDB</span>
+      <span class="tag">Git / GitHub</span>
+      <span class="tag">WhatsApp API</span>
+      <span class="tag">REST APIs</span>
+      <span class="tag">Linux / Terminal</span>
+      <span class="tag">Ciberseguridad básica</span>
+      <span class="tag">Microsoft Word / Excel</span>
+      <span class="tag">Soporte técnico</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Habilidades Personales</h2>
+    <div class="grid">
+      <div class="card"><h3>Responsabilidad</h3><p>Puntual, cumplo plazos y entregas sin necesidad de supervisión constante.</p></div>
+      <div class="card"><h3>Trabajo en equipo</h3><p>Comunicación clara con compañeros, supervisores y clientes.</p></div>
+      <div class="card"><h3>Bajo presión</h3><p>Mantengo la calma y resuelvo con criterio ante errores y fechas ajustadas.</p></div>
+      <div class="card"><h3>Aprendizaje rápido</h3><p>Me adapto a nuevas herramientas, procesos y entornos de trabajo.</p></div>
+      <div class="card"><h3>Atención al detalle</h3><p>Ordenado y cuidadoso con el código, la documentación y los datos.</p></div>
+      <div class="card"><h3>Comunicación</h3><p>Explico ideas técnicas con claridad y trato con respeto a clientes y equipo.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Idiomas</h2>
+    <div class="tags">
+      <span class="tag">Español (Nativo)</span>
+      <span class="tag">Inglés Técnico (Intermedio B1/B2)</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Actividad en GitHub</h2>
+    <div class="github-stats">
+      <p><strong>9 repositorios públicos</strong> | <strong>60+ contribuciones</strong> en el último año (2026) | Proyectos activos en JavaScript, PHP y HTML | Experiencia en forks, personalización y desarrollo desde cero</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Información Adicional</h2>
+    <ul>
+      <li>Disponibilidad inmediata para trabajo presencial o remoto.</li>
+      <li>Licencia de conducir: [Tipo, si tienes].</li>
+      <li>Referencias laborales y personales disponibles a solicitud.</li>
+    </ul>
+  </section>
+
+  <section class="section cta-final">
+    <h2>¿Trabajamos juntos?</h2>
+    <p>Estoy disponible para sumarme a un equipo o para desarrollar tu próximo proyecto.</p>
+    <div class="cta-row">
+      <a class="btn-wa" href="https://wa.me/593979832977" target="_blank">💬 WhatsApp</a>
+      <a class="btn-mail" href="mailto:ythanjavier6@gmail.com">✉ ythanjavier6@gmail.com</a>
+    </div>
+  </section>
+
+  <script>
+  (function () {
+    // ---- Partículas de fondo ----
+    var c = document.getElementById('bg'), ctx = c.getContext('2d');
+    var W, H, dpr, parts = [], mouse = { x: -9999, y: -9999 }, lastY = window.scrollY;
+    var colors = ['#22d3ee', '#a78bfa', '#6366f1', '#ffffff'];
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      c.width = W * dpr; c.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.min(110, Math.floor(W * H / 14000));
+      parts = [];
+      for (var i = 0; i < n; i++) {
+        parts.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35,
+          r: Math.random() * 1.8 + .6, z: Math.random() * .3 + .05,
+          col: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; });
+    window.addEventListener('touchmove', function (e) { var t = e.touches[0]; mouse.x = t.clientX; mouse.y = t.clientY; }, { passive: true });
+    window.addEventListener('mouseout', function () { mouse.x = mouse.y = -9999; });
+
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      var sdy = window.scrollY - lastY; lastY = window.scrollY;
+      for (var i = 0; i < parts.length; i++) {
+        var p = parts[i];
+        var dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 130 && d > 0) { p.x += dx / d * 1.2; p.y += dy / d * 1.2; }
+        p.x += p.vx; p.y += p.vy - sdy * p.z;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.globalAlpha = .75;
+        ctx.fillStyle = p.col;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
+        for (var j = i + 1; j < parts.length; j++) {
+          var q = parts[j], ax = p.x - q.x, ay = p.y - q.y, dist = ax * ax + ay * ay;
+          if (dist < 12000) {
+            ctx.globalAlpha = (1 - dist / 12000) * .22;
+            ctx.strokeStyle = '#22d3ee';
+            ctx.lineWidth = .7;
+            ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+          }
+        }
+      }
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    resize(); frame();
+
+    // ---- Barra de progreso ----
+    var bar = document.getElementById('progress');
+    function prog() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (h > 0 ? window.scrollY / h * 100 : 0) + '%';
+    }
+    window.addEventListener('scroll', prog, { passive: true }); prog();
+
+    // ---- Aparecer al hacer scroll ----
+    var els = document.querySelectorAll('.section, .project, .job, .edu, .card, .github-stats');
+    els.forEach(function (el, i) {
+      el.classList.add('reveal');
+      if (el.classList.contains('card')) el.style.setProperty('--d', ((i % 3) * .08) + 's');
+    });
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); }
+        });
+      }, { threshold: .08 });
+      els.forEach(function (el) { io.observe(el); });
+    } else {
+      els.forEach(function (el) { el.classList.add('visible'); });
+    }
+
+    // ---- Spotlight del cursor ----
+    var fine = window.matchMedia('(hover: hover)').matches;
+    if (fine && !reduce) {
+      var spot = document.createElement('div'); spot.id = 'spot'; document.body.appendChild(spot);
+      window.addEventListener('mousemove', function (e) { spot.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)'; });
+    }
+
+    // ---- Escritura tipo terminal ----
+    var typed = document.getElementById('typed');
+    var roles = ['whoami → Desarrollador Full Stack', 'bots --whatsapp → automatización inteligente', 'nmap --learn → ciberseguridad y hacking ético', 'git commit -m "siempre construyendo"'];
+    var ri = 0, ci = 0, del = false;
+    function type() {
+      var w = roles[ri];
+      typed.textContent = w.slice(0, ci);
+      if (!del && ci < w.length) { ci++; return setTimeout(type, 45); }
+      if (!del) { del = true; return setTimeout(type, 1600); }
+      if (ci > 0) { ci--; return setTimeout(type, 22); }
+      del = false; ri = (ri + 1) % roles.length; setTimeout(type, 300);
+    }
+    if (reduce) typed.textContent = roles[0]; else type();
+
+    // ---- Menú: sección activa ----
+    var links = document.querySelectorAll('#nav a[href^="#"]');
+    var spy = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('#top, #perfil, #experiencia, #proyectos, #habilidades').forEach(function (x) { spy.observe(x); });
+
+    // ---- Tilt 3D en tarjetas ----
+    if (fine && !reduce) document.querySelectorAll('.card, .stat').forEach(function (el) {
+      el.addEventListener('mousemove', function (e) {
+        var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+        el.classList.add('tilt');
+        el.style.transform = 'perspective(600px) rotateX(' + (-y * 10) + 'deg) rotateY(' + (x * 12) + 'deg) translateY(-4px)';
+      });
+      el.addEventListener('mouseleave', function () { el.classList.remove('tilt'); el.style.transform = ''; });
+    });
+
+    // ---- Contadores ----
+    var nums = document.querySelectorAll('.stat-num');
+    function setFinal() { nums.forEach(function (n) { n.textContent = n.dataset.count + (n.dataset.suffix || ''); }); }
+    window.addEventListener('beforeprint', setFinal);
+    if (!reduce && 'IntersectionObserver' in window) {
+      nums.forEach(function (n) { n.textContent = '0'; });
+      var co = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          var n = en.target, end = +n.dataset.count, t0 = null;
+          (function step(t) {
+            if (!t0) t0 = t;
+            var k = Math.min((t - t0) / 1400, 1);
+            n.textContent = Math.round(end * (1 - Math.pow(1 - k, 3))) + (k === 1 ? (n.dataset.suffix || '') : '');
+            if (k < 1) requestAnimationFrame(step);
+          })(performance.now());
+          co.unobserve(n);
+        });
+      }, { threshold: .6 });
+      nums.forEach(function (n) { co.observe(n); });
+    }
+  })();
+  </script>
+</body>
+</html>
