@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mi ruta de aprendizaje combinando universidad y desarrollo real. Recursos, hábitos y lecciones aprendidas.">
+  <meta name="author" content="Ythan Javier Mora Gamarra">
+  <title>De estudiante a desarrollador: mi ruta de aprendizaje | Ythan Javier</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root { --bg: #0a0a0a; --bg-soft: #111111; --panel: #171717; --text: #f5f5f5; --muted: #9ca3af; --line: #27272a; --accent: #22d3ee; --accent-2: #a78bfa; --success: #4ade80; --warning: #fbbf24; --code-bg: #1e1e2e; --font-sans: 'Inter', system-ui, sans-serif; --font-mono: 'Fira Code', monospace; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 1000; box-shadow: 0 0 15px var(--accent); transition: width 0.1s linear; }
+    .article-nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); padding: 16px 24px; }
+    .article-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .back-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .back-link:hover { color: var(--text); }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-brand span { color: var(--accent); }
+    .article-layout { max-width: 1200px; margin: 0 auto; padding: 60px 24px; display: grid; grid-template-columns: 1fr 260px; gap: 60px; }
+    @media (max-width: 900px) { .article-layout { grid-template-columns: 1fr; gap: 40px; } .toc { position: static !important; } }
+    .article-hero { grid-column: 1 / -1; margin-bottom: 20px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+    .article-meta-top { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .article-tag { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); padding: 6px 12px; background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.3); border-radius: 100px; }
+    .article-date { font-size: 0.85rem; color: var(--muted); }
+    .article-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; background: linear-gradient(90deg, #fff 0%, #fff 40%, var(--accent) 60%, var(--accent-2) 80%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .article-subtitle { font-size: 1.2rem; color: var(--muted); max-width: 700px; line-height: 1.6; margin-bottom: 32px; }
+    .article-author { display: flex; align-items: center; gap: 16px; }
+    .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; font-weight: 700; color: #000; font-size: 1.1rem; }
+    .author-info cite { display: block; font-style: normal; font-weight: 600; color: var(--text); font-size: 0.95rem; }
+    .author-info span { font-size: 0.85rem; color: var(--muted); }
+    .article-stats { display: flex; gap: 24px; margin-left: auto; color: var(--muted); font-size: 0.85rem; }
+    .article-stats span { display: inline-flex; align-items: center; gap: 6px; }
+    .article-content { max-width: 720px; }
+    .article-content h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -1px; margin: 56px 0 20px; color: var(--text); scroll-margin-top: 100px; }
+    .article-content h3 { font-size: 1.3rem; font-weight: 600; margin: 40px 0 16px; color: var(--text); scroll-margin-top: 100px; }
+    .article-content p { margin-bottom: 20px; color: #d4d4d8; font-size: 1.05rem; }
+    .article-content strong { color: var(--text); font-weight: 600; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(34,211,238,0.3); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-content a:hover { text-decoration-color: var(--accent); }
+    .article-content ul, .article-content ol { margin: 20px 0 20px 24px; color: #d4d4d8; }
+    .article-content li { margin-bottom: 10px; }
+    .article-content code:not([class]) { background: var(--panel); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); border: 1px solid var(--line); }
+    .code-block { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; margin: 24px 0; overflow: hidden; }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dots span:nth-child(1) { background: #ff5f56; }
+    .code-dots span:nth-child(2) { background: #ffbd2e; }
+    .code-dots span:nth-child(3) { background: #27c93f; }
+    .copy-btn { background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; }
+    .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .code-block pre { padding: 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6; color: #e0e0e0; }
+    .callout { padding: 20px 24px; border-radius: 8px; margin: 28px 0; border-left: 4px solid; }
+    .callout-title { font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    .callout p { margin: 0; font-size: 0.95rem; }
+    .callout.info { background: rgba(34,211,238,0.08); border-color: var(--accent); }
+    .callout.info .callout-title { color: var(--accent); }
+    .callout.warning { background: rgba(251,191,36,0.08); border-color: var(--warning); }
+    .callout.warning .callout-title { color: var(--warning); }
+    .callout.success { background: rgba(74,222,128,0.08); border-color: var(--success); }
+    .callout.success .callout-title { color: var(--success); }
+    .checklist { list-style: none; margin-left: 0; background: var(--panel); padding: 24px; border-radius: 10px; border: 1px solid var(--line); }
+    .checklist li { padding: 8px 0 8px 32px; position: relative; color: #d4d4d8; }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+    .toc { position: sticky; top: 100px; align-self: start; padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; height: fit-content; }
+    .toc-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 10px; }
+    .toc-list a { color: var(--muted); text-decoration: none; font-size: 0.88rem; display: block; padding-left: 12px; border-left: 2px solid transparent; transition: all 0.2s; }
+    .toc-list a:hover { color: var(--text); }
+    .toc-list a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+    .article-nav-bottom { grid-column: 1 / -1; margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 600px) { .article-nav-bottom { grid-template-columns: 1fr; } }
+    .nav-card { padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; transition: all 0.25s; }
+    .nav-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .nav-card-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .nav-card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .nav-card.next { text-align: right; }
+    .article-footer { grid-column: 1 / -1; text-align: center; padding: 40px 24px; border-top: 1px solid var(--line); margin-top: 40px; color: var(--muted); font-size: 0.9rem; }
+    .article-footer a { color: var(--accent); text-decoration: none; }
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.7s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: none; } }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
+    /* Timeline especial para este artículo */
+    .timeline { position: relative; padding-left: 32px; margin: 32px 0; }
+    .timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+    .timeline-item { position: relative; margin-bottom: 32px; }
+    .timeline-item::before { content: ''; position: absolute; left: -28px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg); }
+    .timeline-item h4 { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .timeline-item .year { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-bottom: 8px; display: block; }
+    .timeline-item p { color: #d4d4d8; font-size: 0.95rem; margin: 0; }
+    .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+    .resource-card { background: var(--panel); border: 1px solid var(--line); padding: 20px; border-radius: 10px; transition: all 0.25s; }
+    .resource-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .resource-card h4 { font-size: 1rem; margin-bottom: 8px; color: var(--text); }
+    .resource-card p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+    .resource-card .emoji { font-size: 1.5rem; margin-bottom: 8px; display: block; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav class="article-nav">
+    <div class="article-nav-inner">
+      <a href="../index.html#blog" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Volver al portafolio
+      </a>
+      <a href="../index.html" class="nav-brand">Ythan<span>.</span>Javier</a>
+    </div>
+  </nav>
+
+  <div class="article-layout">
+    <header class="article-hero fade-in">
+      <div class="article-meta-top">
+        <span class="article-tag">Carrera</span>
+        <span class="article-date">Agosto 2026</span>
+      </div>
+      <h1 class="article-title">De estudiante a desarrollador: mi ruta de aprendizaje en 2026</h1>
+      <p class="article-subtitle">Recursos, proyectos prácticos, hábitos de estudio y lecciones aprendidas combinando universidad con desarrollo real.</p>
+      <div class="article-author">
+        <div class="author-avatar">YJ</div>
+        <div class="author-info">
+          <cite>Ythan Javier Mora Gamarra</cite>
+          <span>Desarrollador Full Stack · 8 min de lectura</span>
+        </div>
+        <div class="article-stats">
+          <span>📖 8 min</span>
+          <span> 0 comentarios</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="article-content">
+      <p class="fade-in">Combinar la universidad (Ingeniería en Software en la UPSE) con el desarrollo real no es fácil, pero es la mejor forma de aprender. En este artículo comparto mi ruta, los recursos que usé y las lecciones que me hubiera gustado saber antes.</p>
+
+      <h2 id="timeline">🗓️ Mi línea de tiempo</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <span class="year">2020 - 2022</span>
+          <h4>Bachillerato Técnico</h4>
+          <p>Primer contacto con la programación. HTML básico, lógica y mucho curiosity.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2023</span>
+          <h4>Primeros proyectos reales</h4>
+          <p>Construí mi primer bot de WhatsApp. No funcionaba bien, pero aprendí más que en 6 meses de cursos.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2024</span>
+          <h4>Primer trabajo como desarrollador</h4>
+          <p>Entré a Willie Inspired como Full Stack. Ahí entendí la diferencia entre código de tutorial y código de producción.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="year">2025 - 2026</span>
+          <h4>Ingeniería en Software + proyectos propios</h4>
+          <p>Combino la UPSE con proyectos reales: bots, dashboards, APIs y herramientas de ciberseguridad.</p>
+        </div>
+      </div>
+
+      <h2 id="fundamentos">1️⃣ Los fundamentos primero</h2>
+      <p>Antes de tocar React o Node, entendí bien <strong>JavaScript (ES6+)</strong>, cómo funciona el DOM y las peticiones HTTP. Esto fue clave.</p>
+
+      <div class="callout info">
+        <div class="callout-title">💡 Regla de oro</div>
+        <p>No saltes al framework de moda sin entender el lenguaje base. <code>async/await</code>, <code>promises</code>, <code>closures</code> y el <code>event loop</code> son más importantes que saber React.</p>
+      </div>
+
+      <h2 id="proyectos">2️⃣ Proyectos reales > Tutoriales</h2>
+      <p>Dejé de ver cursos en bucle y empecé a construir. Mis bots de WhatsApp y mi dashboard de administración me enseñaron más que 10 cursos juntos.</p>
+
+      <div class="resource-grid">
+        <div class="resource-card">
+          <span class="emoji">🤖</span>
+          <h4>Knightbot-MD</h4>
+          <p>Bot de WhatsApp con Node.js. Me enseñó manejo de APIs y sesiones.</p>
+        </div>
+        <div class="resource-card">
+          <span class="emoji">📊</span>
+          <h4>Bot Dashboard</h4>
+          <p>Panel de control en tiempo real. Aprendí WebSockets y UI.</p>
+        </div>
+        <div class="resource-card">
+          <span class="emoji">🛡️</span>
+          <h4>Pegasus</h4>
+          <p>Herramienta de auditoría en Python. Me introdujo a la ciberseguridad.</p>
+        </div>
+      </div>
+
+      <h2 id="documentacion">3️⃣ Leer documentación oficial</h2>
+      <p>Aprender a leer la docs oficial de Node, PHP o Baileys es la <strong>habilidad #1</strong> de un senior. Los tutoriales se desactualizan, la documentación no.</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>Mi rutina de aprendizaje</span>
+        </div>
+        <pre>1. Leer la documentación oficial
+2. Hacer el ejemplo básico que viene
+3. Modificarlo para mi caso de uso
+4. Romperlo a propósito para entender errores
+5. Reconstruirlo desde cero sin mirar</pre>
+      </div>
+
+      <h2 id="comunidad">4️⃣ Comunidad y feedback</h2>
+      <p>Subir mi código a GitHub y compartirlo me ayudó a recibir feedback y mejorar. El código que nadie ve, nunca mejora.</p>
+
+      <ul class="checklist">
+        <li>Sube tus proyectos a GitHub aunque no estén perfectos</li>
+        <li>Escribe un README claro (como el de este portafolio)</li>
+        <li>Participa en issues de otros repositorios</li>
+        <li>Comparte lo que aprendes (como este artículo)</li>
+      </ul>
+
+      <h2 id="habitos">5️⃣ Hábitos que funcionan</h2>
+      <p>Después de 3 años, estos son los hábitos que realmente me ayudaron:</p>
+
+      <div class="resource-grid">
+        <div class="resource-card">
+          <span class="emoji">⏰</span>
+          <h4>1 hora diaria</h4>
+          <p>Mejor 1 hora todos los días que 10 horas el domingo.</p>
+        </div>
+        <div class="resource-card">
+          <span class="emoji">📝</span>
+          <h4>Diario técnico</h4>
+          <p>Escribir lo que aprendí cada día solidifica el conocimiento.</p>
+        </div>
+        <div class="resource-card">
+          <span class="emoji">🎯</span>
+          <h4>Proyecto > Curso</h4>
+          <p>Siempre tener un proyecto activo, aunque sea pequeño.</p>
+        </div>
+        <div class="resource-card">
+          <span class="emoji">🤝</span>
+          <h4>Mentores</h4>
+          <p>Buscar gente que sepa más y hacer preguntas específicas.</p>
+        </div>
+      </div>
+
+      <h2 id="errores">6️⃣ Errores que cometí (para que tú no los cometas)</h2>
+      <ul>
+        <li><strong>Querer aprender todo a la vez:</strong> Enfócate en una cosa a la vez.</li>
+        <li><strong>No usar Git al inicio:</strong> Perdí código por no commitear.</li>
+        <li><strong>Copiar y pegar sin entender:</strong> Ahora leo cada línea antes de usarla.</li>
+        <li><strong>No documentar:</strong> Mis proyectos antiguos son ilegibles.</li>
+        <li><strong>Compararme con otros:</strong> Cada uno tiene su ritmo.</li>
+      </ul>
+
+      <div class="callout success">
+        <div class="callout-title"> Conclusión</div>
+        <p>No necesitas saberlo todo para empezar. Empieza con lo básico, construye cosas que te apasionen y el resto llegará solo. La constancia le gana al talento.</p>
+      </div>
+
+      <p style="margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem;">
+        <strong style="color: var(--text);">¿Quieres seguir mi ruta?</strong> Sígueme en 
+        <a href="https://github.com/JAVIER10733" target="_blank" rel="noopener">GitHub</a> y 
+        <a href="https://linkedin.com/in/ythan-javier-3664b032b" target="_blank" rel="noopener">LinkedIn</a>.
+      </p>
+    </article>
+
+    <aside class="toc">
+      <div class="toc-title">En este artículo</div>
+      <ul class="toc-list" id="tocList">
+        <li><a href="#timeline">Mi línea de tiempo</a></li>
+        <li><a href="#fundamentos">Los fundamentos primero</a></li>
+        <li><a href="#proyectos">Proyectos reales</a></li>
+        <li><a href="#documentacion">Leer documentación</a></li>
+        <li><a href="#comunidad">Comunidad y feedback</a></li>
+        <li><a href="#habitos">Hábitos que funcionan</a></li>
+        <li><a href="#errores">Errores que cometí</a></li>
+      </ul>
+    </aside>
+
+    <nav class="article-nav-bottom">
+      <a href="/articulo/articulo-2-apis-restful.html" class="nav-card">
+        <div class="nav-card-label">← Artículo anterior</div>
+        <div class="nav-card-title">Diseñando APIs RESTful que los desarrolladores amen usar</div>
+      </a>
+      <a href="/articulo/bot-whatsapp-nodejs.html" class="nav-card next">
+        <div class="nav-card-label">Artículo relacionado →</div>
+        <div class="nav-card-title">Cómo construir un bot de WhatsApp escalable con Node.js</div>
+      </a>
+    </nav>
+
+    <footer class="article-footer">
+      © 2026 Ythan Javier Mora Gamarra · Hecho con ☕ en Ecuador · 
+      <a href="../index.html">Volver al portafolio</a>
+    </footer>
+  </div>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total) * 100 + '%';
+    }, { passive: true });
+
+    function copyCode(btn) {
+      const code = btn.closest('.code-block').querySelector('pre').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-100px 0px -70% 0px', threshold: 0 });
+    headings.forEach(h => { if (h.id) observer.observe(h); });
+  </script>
+</body>
+</html>

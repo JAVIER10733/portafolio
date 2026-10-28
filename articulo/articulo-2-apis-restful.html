@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Principios de diseño de APIs RESTful: endpoints, versionado, JWT, Swagger y errores consistentes.">
+  <meta name="author" content="Ythan Javier Mora Gamarra">
+  <title>Diseñando APIs RESTful que los desarrolladores amen usar | Ythan Javier</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Mismo CSS del artículo 1 (cópialo aquí para mantener consistencia) */
+    :root { --bg: #0a0a0a; --bg-soft: #111111; --panel: #171717; --text: #f5f5f5; --muted: #9ca3af; --line: #27272a; --accent: #22d3ee; --accent-2: #a78bfa; --success: #4ade80; --warning: #fbbf24; --code-bg: #1e1e2e; --font-sans: 'Inter', system-ui, sans-serif; --font-mono: 'Fira Code', monospace; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+    .progress-bar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); z-index: 1000; box-shadow: 0 0 15px var(--accent); transition: width 0.1s linear; }
+    .article-nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); padding: 16px 24px; }
+    .article-nav-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    .back-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s; }
+    .back-link:hover { color: var(--text); }
+    .nav-brand { font-weight: 700; font-size: 1rem; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
+    .nav-brand span { color: var(--accent); }
+    .article-layout { max-width: 1200px; margin: 0 auto; padding: 60px 24px; display: grid; grid-template-columns: 1fr 260px; gap: 60px; }
+    @media (max-width: 900px) { .article-layout { grid-template-columns: 1fr; gap: 40px; } .toc { position: static !important; } }
+    .article-hero { grid-column: 1 / -1; margin-bottom: 20px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+    .article-meta-top { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .article-tag { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); padding: 6px 12px; background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.3); border-radius: 100px; }
+    .article-date { font-size: 0.85rem; color: var(--muted); }
+    .article-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; background: linear-gradient(90deg, #fff 0%, #fff 40%, var(--accent) 60%, var(--accent-2) 80%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .article-subtitle { font-size: 1.2rem; color: var(--muted); max-width: 700px; line-height: 1.6; margin-bottom: 32px; }
+    .article-author { display: flex; align-items: center; gap: 16px; }
+    .author-avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); display: grid; place-items: center; font-weight: 700; color: #000; font-size: 1.1rem; }
+    .author-info cite { display: block; font-style: normal; font-weight: 600; color: var(--text); font-size: 0.95rem; }
+    .author-info span { font-size: 0.85rem; color: var(--muted); }
+    .article-stats { display: flex; gap: 24px; margin-left: auto; color: var(--muted); font-size: 0.85rem; }
+    .article-stats span { display: inline-flex; align-items: center; gap: 6px; }
+    .article-content { max-width: 720px; }
+    .article-content h2 { font-size: 1.8rem; font-weight: 700; letter-spacing: -1px; margin: 56px 0 20px; color: var(--text); scroll-margin-top: 100px; }
+    .article-content h3 { font-size: 1.3rem; font-weight: 600; margin: 40px 0 16px; color: var(--text); scroll-margin-top: 100px; }
+    .article-content p { margin-bottom: 20px; color: #d4d4d8; font-size: 1.05rem; }
+    .article-content strong { color: var(--text); font-weight: 600; }
+    .article-content a { color: var(--accent); text-decoration: underline; text-decoration-color: rgba(34,211,238,0.3); text-underline-offset: 3px; transition: text-decoration-color 0.2s; }
+    .article-content a:hover { text-decoration-color: var(--accent); }
+    .article-content ul, .article-content ol { margin: 20px 0 20px 24px; color: #d4d4d8; }
+    .article-content li { margin-bottom: 10px; }
+    .article-content code:not([class]) { background: var(--panel); padding: 2px 8px; border-radius: 4px; font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); border: 1px solid var(--line); }
+    .code-block { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; margin: 24px 0; overflow: hidden; }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(0,0,0,0.3); border-bottom: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); font-family: var(--font-mono); }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .code-dots span:nth-child(1) { background: #ff5f56; }
+    .code-dots span:nth-child(2) { background: #ffbd2e; }
+    .code-dots span:nth-child(3) { background: #27c93f; }
+    .copy-btn { background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-family: var(--font-sans); transition: all 0.2s; }
+    .copy-btn:hover { color: var(--text); border-color: var(--accent); }
+    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .code-block pre { padding: 20px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.6; color: #e0e0e0; }
+    .callout { padding: 20px 24px; border-radius: 8px; margin: 28px 0; border-left: 4px solid; }
+    .callout-title { font-weight: 700; margin-bottom: 8px; font-size: 0.95rem; }
+    .callout p { margin: 0; font-size: 0.95rem; }
+    .callout.info { background: rgba(34,211,238,0.08); border-color: var(--accent); }
+    .callout.info .callout-title { color: var(--accent); }
+    .callout.warning { background: rgba(251,191,36,0.08); border-color: var(--warning); }
+    .callout.warning .callout-title { color: var(--warning); }
+    .callout.success { background: rgba(74,222,128,0.08); border-color: var(--success); }
+    .callout.success .callout-title { color: var(--success); }
+    .checklist { list-style: none; margin-left: 0; background: var(--panel); padding: 24px; border-radius: 10px; border: 1px solid var(--line); }
+    .checklist li { padding: 8px 0 8px 32px; position: relative; color: #d4d4d8; }
+    .checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--success); font-weight: 700; }
+    .toc { position: sticky; top: 100px; align-self: start; padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; height: fit-content; }
+    .toc-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; font-weight: 600; }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 10px; }
+    .toc-list a { color: var(--muted); text-decoration: none; font-size: 0.88rem; display: block; padding-left: 12px; border-left: 2px solid transparent; transition: all 0.2s; }
+    .toc-list a:hover { color: var(--text); }
+    .toc-list a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
+    .article-nav-bottom { grid-column: 1 / -1; margin-top: 80px; padding-top: 40px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 600px) { .article-nav-bottom { grid-template-columns: 1fr; } }
+    .nav-card { padding: 24px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; text-decoration: none; transition: all 0.25s; }
+    .nav-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .nav-card-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .nav-card-title { font-size: 1.1rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .nav-card.next { text-align: right; }
+    .article-footer { grid-column: 1 / -1; text-align: center; padding: 40px 24px; border-top: 1px solid var(--line); margin-top: 40px; color: var(--muted); font-size: 0.9rem; }
+    .article-footer a { color: var(--accent); text-decoration: none; }
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 0.7s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: none; } }
+    .fade-in:nth-child(2) { animation-delay: 0.1s; }
+    .fade-in:nth-child(3) { animation-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav class="article-nav">
+    <div class="article-nav-inner">
+      <a href="../index.html#blog" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Volver al portafolio
+      </a>
+      <a href="../index.html" class="nav-brand">Ythan<span>.</span>Javier</a>
+    </div>
+  </nav>
+
+  <div class="article-layout">
+    <header class="article-hero fade-in">
+      <div class="article-meta-top">
+        <span class="article-tag">Backend</span>
+        <span class="article-date">Septiembre 2026</span>
+      </div>
+      <h1 class="article-title">Diseñando APIs RESTful que los desarrolladores amen usar</h1>
+      <p class="article-subtitle">Principios de diseño de endpoints, versionado, autenticación JWT, documentación con Swagger y errores consistentes.</p>
+      <div class="article-author">
+        <div class="author-avatar">YJ</div>
+        <div class="author-info">
+          <cite>Ythan Javier Mora Gamarra</cite>
+          <span>Desarrollador Full Stack · 10 min de lectura</span>
+        </div>
+        <div class="article-stats">
+          <span> 10 min</span>
+          <span>💬 0 comentarios</span>
+        </div>
+      </div>
+    </header>
+
+    <article class="article-content">
+      <p class="fade-in">Crear una API es fácil. Crear una que otros desarrolladores <strong>disfruten usar</strong> es un arte. Después de construir decenas de APIs en Node.js y PHP, he aprendido que la diferencia entre una API buena y una excelente está en los detalles.</p>
+
+      <div class="callout info fade-in">
+        <div class="callout-title">🎯 Para quién es este artículo</div>
+        <p>Si ya sabes hacer un <code>GET /users</code> pero quieres llevar tus APIs al nivel profesional, este artículo es para ti.</p>
+      </div>
+
+      <h2 id="nombres">1️⃣ Nombres claros y recursos</h2>
+      <p>Usa <strong>sustantivos en plural</strong> y evita verbos en las URLs. La URL debe describir el recurso, no la acción:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>❌ Mal vs ✅ Bien</span>
+        </div>
+        <pre>❌ GET /api/getUsers
+❌ POST /api/createUser
+❌ GET /api/deleteUser?id=5
+
+✅ GET    /api/v1/users
+✅ POST   /api/v1/users
+✅ DELETE /api/v1/users/5</pre>
+      </div>
+
+      <h2 id="codigos">2️⃣ Códigos HTTP correctos</h2>
+      <p>No devuelvas siempre <code>200 OK</code>. Los códigos HTTP son parte del contrato de tu API:</p>
+
+      <ul class="checklist">
+        <li><strong>200 OK</strong> — Petición exitosa (GET, PUT, PATCH)</li>
+        <li><strong>201 Created</strong> — Recurso creado (POST)</li>
+        <li><strong>204 No Content</strong> — Éxito sin cuerpo (DELETE)</li>
+        <li><strong>400 Bad Request</strong> — Error del cliente (validación)</li>
+        <li><strong>401 Unauthorized</strong> — No autenticado</li>
+        <li><strong>403 Forbidden</strong> — Autenticado pero sin permisos</li>
+        <li><strong>404 Not Found</strong> — Recurso no existe</li>
+        <li><strong>500 Internal Server Error</strong> — Error del servidor</li>
+      </ul>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>Ejemplo en Express.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        <pre>app.post('/api/v1/users', async (req, res) => {
+  try {
+    const user = await User.create(req.body);
+    res.status(201).json({
+      success: true,
+      data: user
+    });
+  } catch (error) {
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        error: error.message
+      });
+    }
+    res.status(500).json({
+      success: false,
+      error: 'Error interno del servidor'
+    });
+  }
+});</pre>
+      </div>
+
+      <h2 id="paginacion">3️⃣ Paginación y filtros</h2>
+      <p>Nunca devuelvas 10,000 registros de golpe. Usa paginación consistente:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>Ejemplo de respuesta paginada</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        <pre>GET /api/v1/users?page=2&limit=20&sort=-createdAt
+
+{
+  "success": true,
+  "data": [...],
+  "pagination": {
+    "page": 2,
+    "limit": 20,
+    "total": 150,
+    "pages": 8
+  }
+}</pre>
+      </div>
+
+      <h2 id="errores">4️⃣ Errores consistentes</h2>
+      <p>Todos los errores deben seguir el mismo formato. Crea un middleware de errores global:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>middleware/errorHandler.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        <pre>const errorHandler = (err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  
+  res.status(statusCode).json({
+    success: false,
+    error: {
+      message: err.message,
+      code: err.code || 'INTERNAL_ERROR',
+      ...(process.env.NODE_ENV === 'development' && {
+        stack: err.stack
+      })
+    }
+  });
+};
+
+module.exports = errorHandler;</pre>
+      </div>
+
+      <h2 id="jwt">5️⃣ Autenticación con JWT</h2>
+      <p>Usa <strong>JWT</strong> para autenticación stateless. Nunca guardes sesiones en memoria del servidor:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>middleware/auth.js</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        <pre>const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
+const protect = async (req, res, next) => {
+  let token;
+  
+  if (req.headers.authorization?.startsWith('Bearer')) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+  
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      error: 'No autorizado, token requerido'
+    });
+  }
+  
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = await User.findById(decoded.id).select('-password');
+    next();
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      error: 'Token inválido o expirado'
+    });
+  }
+};
+
+module.exports = { protect };</pre>
+      </div>
+
+      <div class="callout warning">
+        <div class="callout-title">⚠️ Seguridad</div>
+        <p>Nunca hardcodees el <code>JWT_SECRET</code>. Usa variables de entorno y rota las claves cada 90 días en producción.</p>
+      </div>
+
+      <h2 id="swagger">6️⃣ Documentación con Swagger</h2>
+      <p>Si no está documentado, <strong>no existe</strong>. Usa Swagger/OpenAPI:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>swagger.yaml (ejemplo)</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+        </div>
+        <pre>/api/v1/users:
+  get:
+    summary: Lista todos los usuarios
+    tags: [Users]
+    parameters:
+      - name: page
+        in: query
+        schema: { type: integer, default: 1 }
+      - name: limit
+        in: query
+        schema: { type: integer, default: 20 }
+    responses:
+      200:
+        description: Lista exitosa
+      401:
+        description: No autorizado</pre>
+      </div>
+
+      <h2 id="versionado">7️ Versionado de API</h2>
+      <p>Usa versionado en la URL para no romper clientes existentes:</p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <div class="code-dots"><span></span><span></span><span></span></div>
+          <span>Estrategias de versionado</span>
+        </div>
+        <pre>✅ URL:        /api/v1/users      (más común)
+✅ Header:     Accept: application/vnd.api.v1+json
+❌ Query:      /api/users?version=1  (evitar)</pre>
+      </div>
+
+      <h2 id="checklist">✅ Checklist de API profesional</h2>
+      <ul class="checklist">
+        <li>URLs con sustantivos en plural</li>
+        <li>Códigos HTTP correctos</li>
+        <li>Paginación en endpoints de lista</li>
+        <li>Formato de error consistente</li>
+        <li>Autenticación JWT</li>
+        <li>Rate limiting</li>
+        <li>Documentación Swagger/OpenAPI</li>
+        <li>Versionado de API</li>
+        <li>Logs de peticiones</li>
+        <li>Tests automatizados</li>
+      </ul>
+
+      <div class="callout success">
+        <div class="callout-title">🎓 Conclusión</div>
+        <p>Una buena API es como un buen UI: <strong>intuitiva, predecible y bien documentada</strong>. Invierte tiempo en el diseño antes de escribir código. Tus compañeros (y tu yo del futuro) te lo agradecerán.</p>
+      </div>
+    </article>
+
+    <aside class="toc">
+      <div class="toc-title">En este artículo</div>
+      <ul class="toc-list" id="tocList">
+        <li><a href="#nombres">Nombres y recursos</a></li>
+        <li><a href="#codigos">Códigos HTTP</a></li>
+        <li><a href="#paginacion">Paginación y filtros</a></li>
+        <li><a href="#errores">Errores consistentes</a></li>
+        <li><a href="#jwt">Autenticación JWT</a></li>
+        <li><a href="#swagger">Documentación Swagger</a></li>
+        <li><a href="#versionado">Versionado</a></li>
+        <li><a href="#checklist">Checklist final</a></li>
+      </ul>
+    </aside>
+
+    <nav class="article-nav-bottom">
+      <a href="/articulo/bot-whatsapp-nodejs.html" class="nav-card">
+        <div class="nav-card-label">← Artículo anterior</div>
+        <div class="nav-card-title">Cómo construir un bot de WhatsApp escalable con Node.js</div>
+      </a>
+      <a href="/articulo/articulo-3-ruta-aprendizaje.html" class="nav-card next">
+        <div class="nav-card-label">Siguiente artículo →</div>
+        <div class="nav-card-title">De estudiante a desarrollador: mi ruta de aprendizaje</div>
+      </a>
+    </nav>
+
+    <footer class="article-footer">
+      © 2026 Ythan Javier Mora Gamarra · Hecho con ☕ en Ecuador · 
+      <a href="../index.html">Volver al portafolio</a>
+    </footer>
+  </div>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const total = document.documentElement.scrollHeight - window.innerHeight;
+      progressBar.style.width = (scrolled / total) * 100 + '%';
+    }, { passive: true });
+
+    function copyCode(btn) {
+      const code = btn.closest('.code-block').querySelector('pre').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+
+    const headings = document.querySelectorAll('.article-content h2, .article-content h3');
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          tocLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+          });
+        }
+      });
+    }, { rootMargin: '-100px 0px -70% 0px', threshold: 0 });
+    headings.forEach(h => { if (h.id) observer.observe(h); });
+  </script>
+</body>
+</html>
